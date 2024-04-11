@@ -9,7 +9,7 @@ class Aguila extends Animal
 
     chillar()
     {
-
+        return sonido;
     }
 }
 

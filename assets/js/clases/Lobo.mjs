@@ -9,7 +9,7 @@ class Lobo extends Animal
 
     aullar()
     {
-
+        return sonido;
     }
 }
 

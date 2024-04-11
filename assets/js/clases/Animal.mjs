@@ -29,11 +29,6 @@ class Animal
         return this.#img;
     }
 
-    set setComentario(comentarios)
-    {
-        this.#comentarios = comentarios;
-    }
-
     get getComentario()
     {
         return this.#comentarios;

@@ -4,13 +4,10 @@ import { Leon } from "../js/clases/Leon.mjs";
 import { Lobo } from "../js/clases/Lobo.mjs";
 import { Oso } from "../js/clases/Oso.mjs";
 import { Serpiente } from "../js/clases/Serpiente.mjs";
+import { modulo } from "./modulo/modulo.mjs";
 
-const arrAnimal = [];
-let nombreAnimal;
-let edadAnimal;
 let imagenAnimal;
 let sonidoAnimal;
-let cardAnimal;
 
 //Cambio de imagen formulario
 document.getElementById("animal").addEventListener("change", async function() 
@@ -20,8 +17,7 @@ document.getElementById("animal").addEventListener("change", async function()
 
     let response = await fetch(baseUrl + recurso);
     let data = await response.json();
-    //console.log(data);
-
+        
     const seleccion = this.value;
     const animalSeleccionado = data.animales.find(animal => animal.name == seleccion);
     
@@ -29,68 +25,46 @@ document.getElementById("animal").addEventListener("change", async function()
     let casillaImagen = document.getElementById("preview");
     casillaImagen.style.backgroundImage = `url(./assets/imgs/${animalSeleccionado.imagen})`;
 
-    nombreAnimal = this.value;
+    const nombreAnimal = this.value;
     imagenAnimal = animalSeleccionado.imagen;
     sonidoAnimal = animalSeleccionado.sonido;
 
-})
+});
 
 //Obtener edad
 document.getElementById("edad").addEventListener("change", function()
 {
-    edadAnimal = this.value;
-})
+    const edadAnimal = this.value;
+});
 
 //Evento Click a Boton Registro
 let btnRegistro = document.querySelector('#btnRegistrar');
 btnRegistro.addEventListener('click', () =>
 {
+    let nombreAnimal = document.querySelector('#animal').value;
+    let edadAnimal = document.querySelector('#edad').value;
     let comentarios = document.querySelector('#comentarios').value;
-
-    //Creamos objetos
-    let objAnimales = new Animal(nombreAnimal, edadAnimal, imagenAnimal, '', sonidoAnimal);
-    objAnimales.setComentario = comentarios;
-
-    //llamo a funcion para crar la card para mostrar en panel izquierdo
-    renderCardAnimal(objAnimales);
-});
-
-
-function renderCardAnimal(datos)
-{
-    cardAnimal +=`
-        <div id="${datos.getNombre}" class="card" style="width: 18rem; height:22rem;">
-            <img id="img-card" src="assets/imgs/${datos.getImagen}" class="img-fluid" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${datos.getNombre}</h5>
-                <button id="btnVer" class="col-12 btn btn-success">
-                    <i class="fa-solid fa-eye"></i> Ver
-                </button>
-                <button id="playBtn" class="col-12 btn btn-primary">
-                    <i class="fa-solid fa-volume-high"></i> sonido
-                </button>
-            </div>
-        </div>
-    `;
-
-    if (document.getElementById(datos.getNombre) ) 
-    {
-        alert("El animal esta en la lista.");
-    }
-    else 
-    {
-        document.querySelector('#Animales').innerHTML = cardAnimal;
-    }
-}
-
-
-let btnVer = document.querySelector('#btnVer');
-btnVer.addEventListener('click', () =>
-{
-    alert('Me hicieron Click');
-});
     
+    if(nombreAnimal == 'Seleccione un animal' || edadAnimal == 'Seleccione un rango de años' || comentarios == '' || comentarios == null)
+    {
+        alert('Falta completar algunos campos.');
+    }
+    else
+    {
+        //Creamos objetos
+        let objAnimales = new Animal(nombreAnimal, edadAnimal, imagenAnimal, comentarios, sonidoAnimal);
 
-    
+        //Creo Array con animales
+        modulo.arrayAnimales.push(objAnimales);
 
+        //envio card a panel izquierdo
+        modulo.renderCardAnimal();
 
+        //limpiar campos
+        document.getElementById('animal').selectedIndex = 0;
+        document.getElementById('edad').selectedIndex = 0;
+        document.getElementById('comentarios').value = '';
+        document.getElementById("preview").style.backgroundImage = `url(./assets/imgs/lion.svg)`
+        
+    }
+});

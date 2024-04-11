@@ -9,7 +9,7 @@ class Leon extends Animal
 
     rugir()
     {
-        return 'Sonido Rugir' 
+        return sonido;
     }
 }
 

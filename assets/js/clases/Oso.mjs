@@ -2,14 +2,14 @@ import { Animal } from "./Animal.mjs";
 
 class Oso extends Animal
 {
-    constructor(nombre, edad, imagen, comentarios, sonido)
+    constructor(nombre, edad, img, comentarios, sonido)
     {
         super(nombre, edad, img, comentarios, sonido)
     }
 
     grunir()
     {
-
+         return sonido; 
     }
 }
 
